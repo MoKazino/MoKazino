@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>MoKazino! - Home</title>
+    <style>
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 660px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[id="captcha"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+    </style>
+  </head>
+  <body class="text-center">
+    
+    <main class="form-signin">
+        <img id="logo" class="mb-4" src="/img/monero.svg" alt="" width="128" height="128">
+
+        <h1 class="h3 mb-3 fw-normal">Play</h1>
+
+        <p class="lead"><a href="/api/v1/switchcurrency/xmr">Monero</a> | <a href="/api/v1/switchcurrency/btc">Bitcoin</a></p>
+
+        <div class="input-group">
+            <input disabled id="balance" type="text" value="0.000000000000" class="form-control">
+            <span id="cur1" class="input-group-text">???</span>
+        </div>
+        <div class="input-group">
+            <button onclick="multiply('amount', 12)" class="input-group-text">x2</button>
+            <button onclick="divide('amount', 12)" class="input-group-text">/2</button>
+            <input onchange="domath()" step="0.0001" id="amount" type="number" value="0.0001" class="form-control">
+            <span id="cur2" class="input-group-text">???</span>
+        </div>
+        <div class="input-group">
+            <button onclick="add('chance')" class="input-group-text">+5</button>
+            <button onclick="substract('chance')" class="input-group-text">-5</button>
+            <input onchange="domath()" min="5" max="95" value="49.50" step="0.01" id="chance" type="number" class="form-control">
+            <span class="input-group-text">%</span>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="multiplynum">x2</span>
+          <input disabled id="profitwin" type="text" value="0.000000000000" class="form-control">
+          <span id="cur3" class="input-group-text">???</span>
+        </div> 
+        <div class="btn-group w-100 mb-3">
+            <button onclick="bet(false)" class="w-100 btn btn-lg btn-warning" type="submit">Bet High</button>
+            <button onclick="bet(true)" class="w-100 btn btn-lg btn-success" type="submit">Bet Low</button>
+        </div>
+        <span id="betstats"></span>
+        <div class="accordion" id="notes">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="history">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#historycontent" aria-expanded="false" aria-controls="history">
+                Stats
+              </button>
+            </h2>
+            <div id="historycontent" class="accordion-collapse collapse" aria-labelledby="history" data-bs-parent="#history">
+              <div class="accordion-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Profit</th>
+                      <th scope="col">Chance</th>
+                      <th scope="col">Roll</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bettable">
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="root">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#chat" aria-expanded="false" aria-controls="collapseTwo">
+                Chat
+              </button>
+            </h2>
+            <div id="chat" class="accordion-collapse collapse" aria-labelledby="chat" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div id="chatlogdiv" style="overflow-y: auto; height: 400px;">
+                  <ul id="chatlog" style="text-align: left;" class="list-group">
+                    <li class="list-group-item">root: Welcome to the chat! This chat room is bridged with out telegram chat group <a href="https://t.me/MoKazinoChat">@MoKazinoChat</a>. Feel free to hop there to make sure that you won't miss any important info, such as replies to your message.</li>
+                    <li class="list-group-item">To be able to send messages you need to wager any amount of monero.</li>
+                    <!-- <li class="list-group-item">List of available chat commands:</li>
+                    <li class="list-group-item"> - .tip username amount - Send some <b id="cur6">???</b> to somebody</li> -->
+                  </ul>
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="usernamechat">loading...</span>
+                  <input id="chatmsg" type="text" placeholder="Type your message here..." class="form-control">
+                  <button onclick="send()" class="input-group-text">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="deposit1">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDeposit" aria-expanded="false" aria-controls="collapseDeposit">
+                Deposit & Withdraw
+              </button>
+            </h2>
+            <div id="collapseDeposit" class="accordion-collapse collapse" aria-labelledby="headingDeposit" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>Here is your deposit address</strong><br /><br />
+                <code id="depoaddr">Loading...</code></br />
+                <img width="50%;" src="/api/v1/depositqr" /><br />
+                <button id="majesticdepobtc" onclick="majesticbank('btc')" type="button" class="w-50 btn btn-primary" data-bs-toggle="modal" data-bs-target="#majesticBankDeposit">Deposit using BTC</button>
+                <button id="majesticdepoltc" onclick="majesticbank('ltc')" type="button" class="w-50 btn btn-primary" data-bs-toggle="modal" data-bs-target="#majesticBankDeposit">Deposit using LTC</button>
+                <button id="majesticdepoxmr" onclick="majesticbank('xmr')" type="button" class="w-50 btn btn-primary" data-bs-toggle="modal" data-bs-target="#majesticBankDeposit">Deposit using XMR</button>
+                <button class="w-100 btn btn-lg btn-secondary" onclick="init()">Refresh</button>
+                <hr />
+                <strong>Withdrawals</strong> are automatic, and instant, however - due to limitation in the monero rpc client, we are not able to substract fee amount from withdrawal. To solve the issue we take 0.00002 xmr from the amount, then we add the remaining amount to your balance. In bitcoin the fee is deducted from withdrawal amount.
+                <div class="input-group">
+                  <span class="input-group-text">Amount</span>
+                  <input value="0.000000000000" step="0.000000000001" id="withdrawamount" type="number" class="form-control">
+                  <button onclick="setmaxwd()" class="input-group-text">Max</button>
+                  <span id="cur4" class="input-group-text">???</span>
+                </div>
+                <div class="input-group">
+                  <span class="input-group-text">Address</span>
+                  <input value="" id="withdrawaddress" type="text" class="form-control" placeholder="Monero Address">
+                </div>
+                <button onclick="withdraw()" class="btn btn-secondary w-100">Withdraw</button>
+                <hr />
+                <p>Problem? With the wallets? <a target="_blank" href="/api/guest/v1/stats">Check nodes status.</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="invite">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#invitecontent" aria-expanded="false" aria-controls="invite">
+                Invite Friends
+              </button>
+            </h2>
+            <div id="invitecontent" class="accordion-collapse collapse" aria-labelledby="invite" data-bs-parent="#invite">
+              <div class="accordion-body">
+                You can invite friends to earn 50% of the house edge on every bet! No matter if they win or lose - you earn. Here is your personal, unique link. When somebody uses it to register you will earn monero!
+                <code><script>document.write(document.location.protocol);</script>//<script>document.write(document.domain)</script>/?ref=<span id="refcodeuserid"></span></code>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="note1">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Provably Fair
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>MoKazino is Provably Fair.</strong><br />
+                Numbers are generaded by using 4 strings (including one decimal representation of an integer)<br />
+                <code>client_seed</code> - This one is controlled by you, you can change it right below, in the settings<br />
+                <code>server_seed</code> - This is the seed that server generates for you, it is kept secret until you decide to reveal it. It's length is generated randomly.<br />
+                <code>nonce</code> - this is a number that goes up from zero, untill you revoke the server key.<br />
+                <br />
+                Then all of them are hashed using sha512 <code>${client_seed}:${server_seed}:${nonce}</code><br />
+                After that first 8 characters are being picked, parsed to int and a modulo is being picked.<br />
+                <br />
+                Still not clear enough? <a target="_blank" href="/provably_fair.go">Check the code.</a><hr />
+                <div class="input-group">
+                  <span class="input-group-text">Nonce</span>
+                  <input value="????" id="nonce" type="text" disabled class="form-control">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-text">Client Seed</span>
+                  <input value="????" id="clientseed" type="text" class="form-control" placeholder="Client seed">
+                </div>
+                <button onclick="saveprovablyfair()" class="btn btn-secondary w-100">Save</button>
+                <hr />
+                Want to make sure that I've never ever cheated on you? Come, grab the bet history. <a href="/api/v1/reset_seed">grab the bet history.</a>. Please not that visiting that link will <strong>revoke your server_key</strong>, and reset nonce to 0.
+              </div>
+              </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Become a investor!
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>Yes! You can become a investor!</strong><br />
+                This will allow you to have a part in the site profits (and losses). Just like it would be your own casino!<br />
+                To get started you need to have at least 0.001 XMR/0.00001 BTC in your balance. After investing you will see a change in the in your investment every minute.<br />
+                You can close your investment any time you want.<br />
+                <strong>Fees</strong><br />
+                There is a 1 % profit fee took on every bet.
+                <div class="input-group">
+                  <span class="input-group-text">Amount</span>
+                  <input value="0.00000000" step="0.00000001" id="investamount" type="number" class="form-control">
+                  <span id="cur5" class="input-group-text">???</span>
+                </div>
+                <button onclick="invest()" class="btn btn-secondary w-100">Invest!</button>
+                <span id="investstatus"></span>
+                <hr />
+                Your current invested balance: <code id="investbalance">Loading... </code> <span id="cur7">???</span>
+                <button onclick="closeinvest()" class="btn btn-secondary w-100">Close Investment!</button>
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-info alert-dismissible" id="sitestats">
+            <div class="row align-items-center">
+              <div class="col">
+                <th>Max Profit</th>
+              </div>
+              <div class="col">
+                <th>Reserved Balance</th>
+              </div>
+              <div class="col">
+                <th>Server Reserve</th>
+              </div>
+            </div>
+            <div class="row align-items-center">
+              <div id="statsmaxprofit" class="col"></div>
+              <div id="statsuserbalance" class="col"></div>
+              <div id="statsserverbalance" class="col"></div>  
+            </div>
+            <!--<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+          </div>
+          <!--
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                API
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <strong>API for our site is available</strong><br />
+                However, we do not (yet) provide any docs, just check out the <code>Network</code> tab in F12 console. You are free to automate every single thing, and push our site to the limits, but if you do too much we will rate limit you.<br />
+                Here is your api key <code id="apikey">working on it</code>, keep in mind that giving somebody this key give them full access to your account, that include withdrawals. To revoke your api key <a href="/">login again.</a>
+              </div>
+            </div>
+          </div>
+          -->
+        </div>
+      <div id="majesticBankDeposit" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+      
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Deposit BTC/LTC/XMR using <a href="https://majesticbank.sc/">MajesticBank</a></h4>
+            </div>
+            <div class="modal-body">
+              <p>Please send any amount of <b id="majcurid">???</b> to the address visible below.</p>
+              <img id="majqrcode" width="50%;" src="/api/v1/depositqr" /><br />
+              <code id="majaddress">???</code>
+              <p>Your Exchange ID is: <code id="majexchangeid"></code>. <a href="https://majesticbank.is/track" target="_blank">Track Status</a></p>
+              <p id="majexchangerate"></p>
+              <p>You have <b id="majexpire">??</b> minutes for the transaction to appear on blockchain.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="/static/bet.js"></script>
+    <script>
+      init()
+      setInterval(init, 25*1000)
+    </script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

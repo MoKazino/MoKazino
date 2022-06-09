@@ -1,0 +1,5 @@
+Welcome to play@MoKazino.net
+
+This is command line TUI that will allow you to play the dice!
+Think of it as a special shell (because it is) that you can use to play all the games that are available on MoKazino.net. To learn how send /help
+

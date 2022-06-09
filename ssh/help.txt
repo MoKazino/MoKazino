@@ -1,0 +1,13 @@
+[yellow]/quit[white] - Safely close connection
+[yellow]/clear[white] - Clear console
+[yellow]/dice [orange]0.001 49.95 lo/hi [green][--public[][white] - Place a bet of 0.001 XMR on 49.95% betting low or high odds
+        [red][wip[][green][--public[][white] - send the bet output to chat, available only for bets larger than 0.01 XMR
+[yellow]/deposit [green][--qrcode[][white] - shows deposit address [with qr code[]
+[yellow]/withdraw [orange]amount address[white] - withdraws funds.
+[yellow]/balance [green][--public][white] - show your balance [to the public]
+[red][wip[] [yellow]/tip [orange]username amount[white] - sends `amount' xmr to `username'
+[red][wip[] [yellow]/rain [orange]people amount[white] - splits `amount' xmr between random `people' active on chat
+
+Any other message (not prefixed with slash) will get broadcasted to the site wide chat.
+
+[lightblue]Keep in mind that this site interface is in early beta, for things that are impossible to do here (as for now) go to MoKazino.net[white]

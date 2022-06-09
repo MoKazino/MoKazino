@@ -1,0 +1,158 @@
+   
+   $$\      $$\           $$\   $$\                    $$\                     
+   $$$\    $$$ |          $$ | $$  |                   \__|                    
+   $$$$\  $$$$ | $$$$$$\  $$ |$$  / $$$$$$\  $$$$$$$$\ $$\ $$$$$$$\   $$$$$$\  
+   $$\$$\$$ $$ |$$  __$$\ $$$$$  /  \____$$\ \____$$  |$$ |$$  __$$\ $$  __$$\ 
+   $$ \$$$  $$ |$$ /  $$ |$$  $$<   $$$$$$$ |  $$$$ _/ $$ |$$ |  $$ |$$ /  $$ |
+   $$ |\$  /$$ |$$ |  $$ |$$ |\$$\ $$  __$$ | $$  _/   $$ |$$ |  $$ |$$ |  $$ |
+   $$ | \_/ $$ |\$$$$$$  |$$ | \$$\\$$$$$$$ |$$$$$$$$\ $$ |$$ |  $$ |\$$$$$$  |
+   \__|     \__| \______/ \__|  \__|\_______|\________|\__|\__|  \__| \______/ 
+   
+
+   Api docs v0
+
+
+### Special endpoints:
+
+/verify - checks if posted field 'captcha' is valid and if yes it gives access to the site,
+this endpoint is currently disabled, but in case of annoying DoS attacks it may and will get
+enabled. Uses 'rubot' cookie.
+
+/captcha?id=someidyouwant - returns captcha image that may be used later for verification
+purposes. The image is 480x240 PNG. Possible imput options are text and/or numbers. Do not
+restrict user input.
+
+/captcha_cookie - same as above but uses 'rubot' cookie instead of id.
+
+http.HandleFunc("/api/v1/login", apiv1login)
+
+#### Actual docs
+
+/api/v1/login - undocumented, internal use.
+/api/v1/login/json 
+
+POST - username=user&password=pass
+RESPONSE:
+ - erroritjson("Invalid username, you are only allowd to use <code>^[A-Za-z0-9]+$</code>  <a href=\"/static/login.html\">Go Back</a>")
+ - erroritjson("Invalid credentials")
+ - on success it sets the 'auth' cookie and returns okitjson(<value of auth cookie>)
+
+/api/v1/register/ - undocumented, internal use.
+/api/v1/register/json
+POST - username=user&password=pass[&captcha=<text from /captcha_cookie>]
+Captcha is currently disabled.
+RESPONSE:
+ - erroritjson("Invalid username, you are only allowd to use <code>^[A-Za-z0-9]+$</code>")
+ - erroritjson("Your password or username is blank 0.0")
+ - erroritjson("User with that username already exist (" + username + ").")
+
+on success okitjson(`Your account got created.`) and sets 'auth' cookie so there is no need to /api/v1/login[/json]
+
+/api/v1/register/oneclick - undocumented, internal use.
+/api/guest/v1/stats - undocumented
+
+#### Begin authenticated area!
+To access endpoints below you need both 'auth' and 'rubot' cookies that you have obtained above.
+
+Endpoints are in random order.
+
+/api/v1/switchcurrency/{xmr,btc} - undocumented, internal use.
+
+/api/v1/switchcurrency/{xmr,btc}/json
+GET - switch profile to x currency, so bets, withdrawals etc..
+
+/api/v1/profile
+GET
+
+RESPONSE:
+
+{
+  "user": {
+    "id": 1,
+    "username": "root",
+    "cookie": "'auth' cookie",
+    "currency": "XMR", // /api/v1/switchcurrency/{xmr,btc}/json
+    "balance": 7341277280, // monero
+    "bitcoinbalance": 0,
+    "wagered": 1000000000, // monero
+    "wageredbitcoin": 700000000,
+    "investbalance": 199365264102,
+    "investbalancebitcoin": 0,
+    "moneroaddress": "....",
+    "bitcoinaddress": "...",
+    "nonce": 17,
+    "chatbanned": false,
+    "clientseed": "xdsdsw"
+  },
+  "bets": null // soon :)
+}
+
+/api/v1/depositqr - 512x512 png of current deposit address.
+/api/v1/depositqr/custom?qr=lol - 512x512 png of qr code containing 'lol'
+
+/api/v1/profile_update -
+
+POST - clientseed=newclientseed
+
+if newclientseed is longer than 32 chars it will get trimmed.
+
+RESPONSE: {"status": "Okay!"}
+
+/api/v1/number - check /provably_fair.go
+
+/api/v1/bet
+POST:
+body: new URLSearchParams({ 
+    'amount': Number(amount*1e12).toFixed(0), // TODO: does this work for bitcoin? 
+    'chance': Number(chance*100).toFixed(0),
+    'betlo': betlo,
+})
+
+RESPONSE: 
+ - {"nonce":18,"currency":"XMR","balance":7441277280,"profit":100000000,"roll":9044,"win":true}
+
+/api/v1/withdraw{,/xmr/btc}
+no need to specify /currency
+POST: amount=242142&address=theaddress
+RESPONSE: 
+ - 500 Internal Server Error *plaintext status update* (fail)
+ - 200 OK *plaintext withdrawal info* (success)
+
+/api/v1/invest
+POST: amount=421521
+RESPONSE: 
+200 OK *plaintext status* - both fail and success, just alert it to user.
+
+/api/v1/closeinvest
+GET
+RESPONSE:
+200 OK *plaintext status* - both fail and success.
+
+/api/v1/reset_seed
+resets seeds and returns CSV:
+bet_id, bet_nonce, bet_clientseed, bet_serverseed, bet_amount
+
+/api/v1/reset_seed/all - undocumented, admin only.
+
+/api/v1/serverstats
+GET
+RESPONSE: {"maxprofit":"0.005100491317","userbalance":"0.007450328626","serverbalance":"0.510049131758"}
+
+/api/v1/chat/send
+POST text=message
+sends message to the chat.
+RESPONSE: {"ok": true} no matter what.
+
+/api/v1/chat/read
+GET
+p.s. this call will hold for as long as needed, until a message arrive.
+RESPONSE: plaintext message
+
+/api/v1/external/majesticbank/exchange?receive_curency=currency - undocumented, internal use only.
+
+------
+
+Function definition
+
+erroritjson(x string) - {"ok": false, "message": "x"}
+   okitjson(x string) - {"ok": true,  "message": "x"}

@@ -1,0 +1,6 @@
+monitor
+wallet*
+web/node_modules
+*.db
+xmrdice*
+vendor

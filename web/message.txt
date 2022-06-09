@@ -1,0 +1,87 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+
+   
+   $$\      $$\           $$\   $$\                    $$\                     
+   $$$\    $$$ |          $$ | $$  |                   \__|                    
+   $$$$\  $$$$ | $$$$$$\  $$ |$$  / $$$$$$\  $$$$$$$$\ $$\ $$$$$$$\   $$$$$$\  
+   $$\$$\$$ $$ |$$  __$$\ $$$$$  /  \____$$\ \____$$  |$$ |$$  __$$\ $$  __$$\ 
+   $$ \$$$  $$ |$$ /  $$ |$$  $$<   $$$$$$$ |  $$$$ _/ $$ |$$ |  $$ |$$ /  $$ |
+   $$ |\$  /$$ |$$ |  $$ |$$ |\$$\ $$  __$$ | $$  _/   $$ |$$ |  $$ |$$ |  $$ |
+   $$ | \_/ $$ |\$$$$$$  |$$ | \$$\\$$$$$$$ |$$$$$$$$\ $$ |$$ |  $$ |\$$$$$$  |
+   \__|     \__| \______/ \__|  \__|\_______|\________|\__|\__|  \__| \______/ 
+   
+   Hi!
+
+Mokazino has just started!
+   Well, not yet. We are waiting for some things to settle. We need a logo, 
+investors, friends, happiness.. and nodes to finish sync.
+   I am really grateful for the community-funded CCS that made it possible,
+for me to deploy this site. I'll continue to provide updates, support and
+help to everybody who needs it, if the community wants any changes to be made
+to the site, you can be sure that they will land here, within a reasonable time.
+   I am inviting everybody to come and play. We have no kyc, instant withdrawals
+and deposits, nice support (I'm the support so it got to be nice), on-site chat
+linked to the telegram group. And provably fair bets!
+   I am hoping to see MoKazino as something that the community has built
+together, and something that will keep us together. That's why bankroll
+is community-funded, and why an api for the site is* available.
+   If you have already made your bet and seen how the site looks like, come to 
+the telegram @MoKazinoChat or tweet at me (@MoKazino), tell me what you like and
+what you dislike and I will do my best to fix the latter things.
+
+ Good luck. Have fun!
+           ~ MoKazino Guy
+
+
+* It is available I'm finishing writing docs!
+- ----------
+
+Hosting for this site got funded in CCS number 304:
+https://repo.getmonero.org/monero-project/ccs-proposals/-/merge_requests/304
+
+The one and only official accounts and links:
+ - g2tezpoegldz6mpqmvtq5bwfsk7nkxfqrr3hcj7e57xp7mpji6xugbqd.onion
+ - MoKazino.net
+ - twitter.com/MoKazino
+ - t.me/MoKazinoGuy  - private message
+ - t.me/MoKazino     - news channel
+ - t.me/MoKazinoChat - chat group
+
+You can contact me at: mokazino@protonmail.com
+
+ - [x] Deploy servers
+ - [x] Buy the domain
+ - [x] Generate onion
+ - [ ] Sync the nodes
+ - [x] Start the site  __/ Betting will be available 
+ - [ ] Gain investors    \ somewhere around here.
+ - [ ] Enjoy the dice
+
+PGP Fingerprint: 7860 91C1 1B7C BDCD 6DAC  1F6A CC19 CE90 42F2 94AE
+Public key can be downloaded from /mokazino.gpg
+
+
+This message got updated at the following times:
+
+     / Date                / Height  / Hash                                                             /
+    / 2022-05-07 10:03:33 / 2618184 / 66dca31c48fd6dfea889fb661ebbd75b8a8de7567a94106da121e43f9aa5813f /
+   / 2022-05-07 12:38:34 / 2618267 / f76b513dfdfa60591cae3c5fe797b371a2e0df766a0dd06ed96566e9ac18809b /
+  / 2022-05-08 15:04:32 / 2619048 / 10b3841ff398c0bf9353f4e04fe94c299ab91d310ee1e8e3762067bcca9dc6a8 /
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEeGCRwRt8vc1trB9qzBnOkELylK4FAmJ33NsACgkQzBnOkELy
+lK4aYxAAlvyBQQLggMwZHxvARhLxV4mKWDIh7B89vUzJH1vu0FUwimUwsHdXbu3v
+Urm4ReN3QduSc33dCnLJ9uCq5ZIBbZRpSWlrv+vqfvRG6F2c0FKhJmoJRPVAX3iN
+osfCWW2kXxU9qPRfe5enkm83MnMShpklu0wcp5sJWxMZt0CvOZwULfc8sH1JM6zs
+8tTL8NtB9aBk1eReTt85tp6ERjuQJc8ohBq87evCrs1NYkqPALDEPhEVBm44dILu
+M/ZuhBv+kea4WJEEnrB7QvUPJ+BaVJ22TfpFp6Rp27a9HlhLGRXPCefSbvq/QiRl
+xx/FGDg5pvIOj2LQAL1XnfR9bv7UJxwKIZ9IysGA+PQVO+VDlzhVbqQgmuX4nMjP
+m2a6R0F2gBgOQuSTUwRFVR2gpIKjhy2dZupiOGigAQ1Yy89Mu4EH5fqfUpq0bB98
+098+qQNXFsKUmXLIYbDZJVWuaUNGDGkG5kT5bOKYTkPv6f7XhcQ74+aZ07uxuhrI
+yRHgEGiYQ1We7acgw0F7LGwqqjvCfYOv/zr9AmQiPp6kZ/zuO1XlWR2QJaxaCk9O
+wpDF2L+kWlh/Zf9CwFxGD7xLJDlZA5QZY0S3DUc2dIm+MhJ1mzF2YOaumasj7pHk
+rBn8vr8lT/gMOP6bAQ0vJrRLWLbTWRe7WlnLN5phbaMeqC4XisI=
+=M4yj
+-----END PGP SIGNATURE-----

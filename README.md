@@ -29,7 +29,7 @@ Without going to deep into *what I see this site as*, let's just go to the TODO 
  - [x] Core site - includes api and minimal UI
  - [ ] Fancy Web Frontend - WIP
  - [ ] Fancy Web Frontend but JS is gone
- - [ ] CLI/SSH client - WIP <!-- (I dare you to `ssh play@MoKazino.net`) -->
+ - [ ] CLI/SSH client - WIP (I dare you to `ssh play@MoKazino.net` pw: `letsplay`)
  - [ ] Advanced betting API
    - [ ] API
    - [ ] Game/Roulette
@@ -37,6 +37,7 @@ Without going to deep into *what I see this site as*, let's just go to the TODO 
  - [ ] Poker tables
  - [ ] Chat bridges
    - [x] Telegram
+   - [x] SSH
    - [ ] IRC
    - [ ] Matrix
  - [ ] Custom event betting <!-- Winning based upon a result provided by a number of sources, for example election results, sports betting. -->
