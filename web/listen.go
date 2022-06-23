@@ -4,17 +4,21 @@ import (
 	"embed"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
-//go:embed node_modules/bootstrap/dist/css/*.css
-//go:embed node_modules/bootstrap/dist/js/*.js
 //go:embed index.html
-//go:embed img/*.svg
-//go:embed static/*.html
-//go:embed static/*.js
+//go:embed login-legacy.html
 //go:embed provably_fair.go
 //go:embed message.txt mokazino.gpg docs.txt
+//go:embed fonts
+//go:embed fonts/Commissioner.ttf
+//go:embed fonts/Berlin
+//go:embed fonts/Berlin/*.TTF
+//go:embed images
+//go:embed images/*.svg
+//go:embed _app
 var files embed.FS
 
 func init() {
@@ -39,6 +43,7 @@ func Listen() {
 	http.HandleFunc("/api/v1/profile_update", apiv1profileupdate)
 	http.HandleFunc("/api/v1/number", apiv1number)
 	http.HandleFunc("/api/v1/bet", apiv1bet)
+	http.HandleFunc("api/v1/bet/roulette", apiv1betroulette)
 	http.HandleFunc("/api/v1/withdraw", apiv1withdraw)
 	http.HandleFunc("/api/v1/withdraw/xmr", apiv1withdrawxmr)
 	http.HandleFunc("/api/v1/withdraw/btc", apiv1withdrawbtc)
@@ -52,6 +57,7 @@ func Listen() {
 	http.HandleFunc("/api/v1/external/majesticbank/exchange", apiv1externalmajesticbankexchnage)
 	http.HandleFunc("/api/guest/v1/stats", apiguestv1stats)
 	http.HandleFunc("/verify", func(rw http.ResponseWriter, r *http.Request) {
+		rw.Header().Add("Cache-Control", "no-store")
 		cookie, err := r.Cookie("rubot")
 		if !IsBot(rw, r) {
 			return
@@ -72,6 +78,7 @@ func Listen() {
 		}
 	})
 	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
+		// rw.Header().Add("Cache-Control", "no-store")
 		http.SetCookie(rw, &http.Cookie{
 			Name:     "ref",
 			Value:    r.URL.Query().Get("ref"),
@@ -87,11 +94,15 @@ func Listen() {
 			r.URL.Path = "/index.html"
 		}
 		if strings.HasPrefix(r.URL.Path, "/static/home") {
-			r.URL.Path = "/static/homev2.html"
+			r.URL.Path = "/index.html"
 		}
 		f, err := files.ReadFile(r.URL.Path[1:])
+		if os.IsNotExist(err) { // frontend hack?
+			r.URL.Path = r.URL.Path + ".html"
+			f, err = files.ReadFile(r.URL.Path[1:])
+		}
 		if err != nil {
-			rw.WriteHeader(500)
+			rw.WriteHeader(404)
 			rw.Write([]byte(err.Error()))
 			return
 		}
